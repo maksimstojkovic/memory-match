@@ -1,6 +1,7 @@
 import "./styles/App.scss";
 import Header from "./components/Header";
 import Deck from "./components/Deck";
+import Footer from "./components/Footer";
 import { useState, useEffect } from "react";
 
 // const imgUrl = "https://picsum.photos/100";
@@ -98,7 +99,12 @@ function App() {
   return (
     <>
       <Header score={selected.length} bestScore={bestScore} />
-      <Deck cards={cards} handleClick={handleClick} />
+
+      <div className="deck-wrapper">
+        <Deck cards={cards} handleClick={handleClick} />
+      </div>
+
+      <Footer />
     </>
   );
 }
