@@ -6,18 +6,18 @@ import { useState, useEffect } from "react";
 
 // const imgUrl = "https://picsum.photos/100";
 const images = [
-  "/anne.png",
-  "/croaker.png",
-  "/grime.png",
-  "/hoppop.png",
-  "/loggle.png",
-  "/maddie.png",
-  "/polly.png",
-  "/sasha.png",
-  "/sprig.png",
-  "/sylvia.png",
-  "/toadstool.png",
-  "/wally.png",
+  "anne.png",
+  "croaker.png",
+  "grime.png",
+  "hoppop.png",
+  "loggle.png",
+  "maddie.png",
+  "polly.png",
+  "sasha.png",
+  "sprig.png",
+  "sylvia.png",
+  "toadstool.png",
+  "wally.png",
 ];
 const cardCount = images.length;
 // const cardCount = 12;
