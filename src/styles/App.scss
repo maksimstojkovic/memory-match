@@ -109,11 +109,15 @@ header {
 
       background-color: #87b864;
       border-radius: 10px;
+      cursor: pointer;
 
+      -webkit-tap-highlight-color: transparent;
       transition: box-shadow 0.1s;
 
-      &:hover {
-        box-shadow: 0 0 5px 5px lightgreen;
+      @media (hover: hover) {
+        &:hover {
+          box-shadow: 0 0 5px 5px lightgreen;
+        }
       }
 
       @media (max-width: 500px) {
