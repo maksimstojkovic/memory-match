@@ -93,6 +93,8 @@ function App() {
       });
     }
 
+    shuffleCards();
+
     // return () => abortController.abort();
   }, []);
 
