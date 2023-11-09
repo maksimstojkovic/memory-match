@@ -1,35 +1,81 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./styles/App.scss";
+import Header from "./components/Header";
+import Deck from "./components/Deck";
+import { useState, useEffect } from "react";
+
+const imgUrl = "https://picsum.photos/100";
+const cardCount = 10;
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [bestScore, setBestScore] = useState(0);
+  const [selected, setSelected] = useState([]);
+  const [cards, setCards] = useState(
+    [...Array(cardCount).keys()].map((i) => ({ id: i, src: null }))
+  );
+
+  const fetchImage = async (id, abortController) => {
+    try {
+      const res = await fetch(imgUrl, { signal: abortController.signal });
+      const imgBlob = await res.blob();
+      const imgObjectURL = URL.createObjectURL(imgBlob);
+
+      setCards((cards) => {
+        const cardList = [...cards];
+        // const cardList = cards.map((card) => ({ ...card }));
+        cardList[id] = { ...cardList[id], src: imgObjectURL };
+
+        return cardList;
+      });
+    } catch (error) {
+      return;
+    }
+  };
+
+  const shuffleCards = () => {
+    setCards((cards) => {
+      const prevCards = [...cards];
+      const newCards = [];
+      const totalImages = prevCards.length;
+
+      while (newCards.length < totalImages) {
+        const index = Math.floor(Math.random() * prevCards.length);
+
+        newCards.push(prevCards[index]);
+        prevCards.splice(index, 1);
+      }
+
+      return newCards;
+    });
+  };
+
+  const handleClick = (id) => {
+    if (!selected.includes(id)) {
+      setSelected((selected) => [...selected, id]);
+    } else {
+      setSelected([]);
+    }
+
+    shuffleCards();
+  };
+
+  useEffect(() => {
+    // TODO: Add loading screen until images all ready
+
+    const abortController = new AbortController();
+
+    for (let i = 0; i < cardCount; i++) {
+      fetchImage(i, abortController);
+    }
+
+    return () => abortController.abort();
+  }, []);
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Header score={selected.length} />
+      <Deck cards={cards} handleClick={handleClick} />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
