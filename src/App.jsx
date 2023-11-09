@@ -50,6 +50,10 @@ function App() {
 
   const handleClick = (id) => {
     if (!selected.includes(id)) {
+      if (bestScore < selected.length + 1) {
+        setBestScore(selected.length + 1);
+      }
+
       setSelected((selected) => [...selected, id]);
     } else {
       setSelected([]);
@@ -72,7 +76,7 @@ function App() {
 
   return (
     <>
-      <Header score={selected.length} />
+      <Header score={selected.length} bestScore={bestScore} />
       <Deck cards={cards} handleClick={handleClick} />
     </>
   );
